@@ -4,7 +4,7 @@ library(httr)
 library(jsonlite)
 library(rvest)
 library(stringr)
-
+library(lubridate)
 
 path_info <- "/function/storage/bucket/"
 path_tournament <- "/function/storage/ruchess/"
@@ -63,8 +63,8 @@ get_tournaments <- function(x) {
 update_dataset <- function(name){
    df_one <- get_activity(name)
    if (is.list(df_one)){
-      write_json(path_info, df_one,
-                 paste0(name,
+      write_json(df_one,
+                 paste0(path_info,name,
                         '_activity_',
                         format(Sys.time(),"%Y-%m-%d",tz="GMT"),
                         '.json'))
@@ -88,8 +88,8 @@ update_dataset <- function(name){
             dt_bullet <- c(rep(NA, 4))
          }
          gg <- get_perfomance(name,"bullet")
-         write_json(path_info, gg,
-                    paste0(
+         write_json(gg,
+                    paste0(path_info,
                        name,"_bullet_",
                        '_perfomance_',
                        format(Sys.time(),"%Y-%m-%d",tz="GMT"),
@@ -107,8 +107,8 @@ update_dataset <- function(name){
             dt_bullet <- c(rep(NA, 4))
          }
          gg <- get_perfomance(name,"blitz")
-         write_json(path_info, gg,
-                    paste0(name,"_blitz_",
+         write_json(gg,
+                    paste0(path_info, name,"_blitz_",
                            '_perfomance_',
                            format(Sys.time(),"%Y-%m-%d",tz="GMT"),
                            '.json'))
